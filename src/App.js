@@ -1,25 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, BrowserRouter } from "react-router-dom";
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import Copyright from './components/Copyright';
 import './App.css';
+
+import { Box, CssBaseline, Container, Typography } from '@material-ui/core';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container maxWidth="sm">
+      <CssBaseline />
+      <Box my={4}>
+        <Typography variant="h1" gutterBottom align="center">
+          Parrot Wings
+        </Typography>
+        <Container component="main" maxWidth="xs">
+          <BrowserRouter>
+            <Route path="/login" component={SignIn} />
+            <Route path="/register" component={SignUp} />
+          </BrowserRouter>
+        </Container>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </Box>
+    </Container>
   );
 }
 
