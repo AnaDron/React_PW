@@ -51,11 +51,9 @@ function MyField(props) {
 }
 
 export default function SignUp() {
-    const [error, setError] = React.useState('');
-
     const classes = useStyles();
 
-    function onSubmit(values, { setErrors, setSubmitting }) {
+    function onSubmit(values, { setStatus, setErrors, setSubmitting }) {
         fetch(`http://193.124.114.46:3001/users`, {
             method: 'POST',
             headers: {
@@ -99,9 +97,9 @@ export default function SignUp() {
                 }
             }
 
-            setError(`Unknown error ${res.status} '${res.error}'`);
+            setStatus(`Unknown error ${res.status} '${res.error}'`);
         }, e => {
-            setError(`Unknown error '${e}'`);
+            setStatus(`Unknown error '${e}'`);
         }).then(() => {
             setSubmitting(false);
         });
@@ -130,15 +128,6 @@ export default function SignUp() {
             <Typography component="h1" variant="h5">
                 Sign up
             </Typography>
-            <Box width="100%">
-                <Collapse in={error !== ''}>
-                    <Box mt={3}>
-                        <Alert severity="error">
-                            {error}
-                        </Alert>
-                    </Box>
-                </Collapse>
-            </Box>
             <Formik
                 initialValues={{
                     name: '',
@@ -149,8 +138,15 @@ export default function SignUp() {
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
             >
-                {({ isSubmitting }) => (
+                {({ isSubmitting, status }) => (
                     <Form className={classes.form}>
+                        <Collapse in={status !== undefined}>
+                            <Box mb={3}>
+                                <Alert severity="error">
+                                    {status}
+                                </Alert>
+                            </Box>
+                        </Collapse>
                         <Grid container spacing={2}>
                             <MyField
                                 name="name"
